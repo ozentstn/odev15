@@ -1,5 +1,6 @@
 package org.example;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -56,27 +57,27 @@ public class XPathTest {
         add.click();
 
         //region[Veri girme]
-        WebElement fName=webDriver.findElement(By.cssSelector("//input[@id='firstName']"));
+        WebElement fName=webDriver.findElement(By.xpath("//input[@id='firstName']"));
         fName.click();
         fName.sendKeys("Özen");
 
-        WebElement lName=webDriver.findElement(By.cssSelector("//input[@id='lastName']"));
+        WebElement lName=webDriver.findElement(By.xpath("//input[@id='lastName']"));
         lName.click();
         lName.sendKeys("Taştan");
 
-        WebElement mail=webDriver.findElement(By.cssSelector("//input[@id='userEmail']"));
+        WebElement mail=webDriver.findElement(By.xpath("//input[@id='userEmail']"));
         mail.click();
         mail.sendKeys("ozentastan1@gmail.com");
 
-        WebElement age=webDriver.findElement(By.cssSelector("//input[@id='age']"));
+        WebElement age=webDriver.findElement(By.xpath("//input[@id='age']"));
         age.click();
         age.sendKeys("27");
 
-        WebElement salary=webDriver.findElement(By.cssSelector("//input[@id='salary']"));
+        WebElement salary=webDriver.findElement(By.xpath("//input[@id='salary']"));
         salary.click();
         salary.sendKeys("123456789");
 
-        WebElement dep=webDriver.findElement(By.cssSelector("//input[@id='department']"));
+        WebElement dep=webDriver.findElement(By.xpath("//input[@id='department']"));
         dep.click();
         dep.sendKeys("Meva");
 
@@ -90,20 +91,23 @@ public class XPathTest {
         WebElement edit=webDriver.findElement(By.xpath("//span[@id='edit-record-4']"));
         edit.click();
 
-        WebElement dep2=webDriver.findElement(By.xpath("//div[@class='rt-tr-group'][4]//div[6]"));
+        WebElement dep2=webDriver.findElement(By.xpath("//input[@id='department']"));
         dep2.click();
-        dep2.sendKeys("Meva-Ökc");
+        dep2.sendKeys("-Ökc");
 
         WebElement sub2=webDriver.findElement(By.xpath("//button[@id='submit']"));
         sub2.click();
 
         WebElement dep2Text =webDriver.findElement(By.xpath("//div[@class='rt-tr-group'][4]//div[6]"));
         String showDep2Text=dep2Text.getText();
+        System.out.println(showDep2Text);
 
-        if (!showDepText.equals(showDep2Text)){
-            System.out.println("Veri değiştirildi");
-        }else {
-            System.out.println("Veri değiştirilmedi");
-        }
+        Assert.assertFalse(EqualsBuilder.reflectionEquals(showDepText,showDep2Text),"Veri değiştirildi");
+
+    }
+
+    @AfterClass
+    public void quitDriver() {
+        webDriver.quit();
     }
 }
